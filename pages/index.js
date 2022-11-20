@@ -1,7 +1,8 @@
 import Head from "next/head"
 import styles from "../styles/Home.module.css"
-
-export default function Home() {
+import getProjects from "../api/getProject"
+export default function Home({ data }) {
+  console.log(data)
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +13,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Hello</a>
+          Welcome to <a href="https://nextjs.org">{data[0].name}</a>
         </h1>
 
         <p className={styles.description}>
@@ -52,4 +53,13 @@ export default function Home() {
       </main>
     </div>
   )
+}
+
+export async function getStaticProps() {
+  // Instead of fetching your `/api` route you can call the same
+  // function directly in `getStaticProps`
+  const data = await getProjects()
+
+  // Props returned will be passed to the page component
+  return { props: { data } }
 }
